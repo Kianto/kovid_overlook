@@ -1,7 +1,13 @@
 # Kovid Overlook
+A new Flutter application for Flutter Vietnam UI Challenge #1
+to summarize Covid data around the world.
 
-A new Flutter application for Flutter Vietnam UI Challenge #1.
+### Review
+[![Image](review/ooo.png)](https://res.cloudinary.com/dasdang/video/upload/v1596811207/videos/kovid_overlook/kovid_overlook_demo.mp4)
 
+<img src="https://res.cloudinary.com/dasdang/image/upload/v1596814817/videos/kovid_overlook/ezgif.com-video-to-gif_kpsjvv.gif" />
+
+---
 
 ### Imported packages:
 1. cupertino_icons: ^0.1.3
@@ -21,5 +27,7 @@ A new Flutter application for Flutter Vietnam UI Challenge #1.
 
 ### Country and Continent Codes Source
 - [Data Hub](https://datahub.io/JohnSnowLabs/country-and-continent-codes-list)
+
+---
 
 Kovid Overlook App by [Kianto](https://github.com/Kianto)
