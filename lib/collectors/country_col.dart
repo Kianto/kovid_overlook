@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ abstract class CountryCollection {
 //    ];
 //  }
 
+
   static Stream<List<Country>> getCountriesByContinentStream<T>(String code) async* {
     List<Country> res = [];
 
@@ -30,10 +32,9 @@ abstract class CountryCollection {
     for (var countryCode in list) {
       var country = await getCountryByCode(countryCode);
 
-      //todo: update this
-//      continent.updateReport(country.toJson());
-      yield res..add(country);
+      if (null != country) yield res..add(country);
     }
+    print('Done');
   }
 
   static Future<Country> getCountryByCode(String code) async {
@@ -48,7 +49,12 @@ abstract class CountryCollection {
     );
 
     if (response.statusCode == 200) {
-      return Country.fromJson(json.decode(response.body)[0]);
+      try {
+        return Country.fromJson(json.decode(response.body)[0]);
+      } catch(e) {
+        print(e);
+        return null;
+      }
 
     } else {
       throw Exception('Failed to load');

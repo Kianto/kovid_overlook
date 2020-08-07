@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kovidoverlook/utils/data_number_convert.dart';
 import 'package:kovidoverlook/widgets/animation_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class _SummaryCardState extends State<SummaryCard> {
         footer: AnimatedBuilder(
           builder: (context, _) =>  Center(
             child: Text(
-              (widget.number * notifier.value).toStringAsFixed(0),
+              DataNumberConverter.convert(widget.number * notifier.value),
               style: TextStyle(
                 fontWeight: FontWeight.w700,
               ),

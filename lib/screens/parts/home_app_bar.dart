@@ -3,18 +3,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kovidoverlook/collectors/continent_col.dart';
 import 'package:kovidoverlook/models/continent.dart';
+import 'package:kovidoverlook/models/report.dart';
 import 'package:kovidoverlook/widgets/continent_card.dart';
 import 'package:kovidoverlook/widgets/summary_card.dart';
 import 'package:kovidoverlook/widgets/summary_chart.dart';
 
 class HomeAppBar extends StatefulWidget {
-  HomeAppBar({Key key, @required this.continent, this.onContinentSelected,}) 
+  HomeAppBar({Key key, @required this.continent, this.onContinentSelected, this.reports})
       : continents = ContinentCollection.getContinents(),
         super(key: key);
 
   final Continent continent;
   final Function(Continent) onContinentSelected;
   final List<Continent> continents;
+  final List<Report> reports;
 
   @override
   _HomeAppBarState createState() => _HomeAppBarState();
@@ -22,9 +24,21 @@ class HomeAppBar extends StatefulWidget {
 
 class _HomeAppBarState extends State<HomeAppBar> {
   final _carouselController = CarouselController();
+  int _pointer = 0;
 
   @override
   Widget build(BuildContext context) {
+    if ('*' != widget.continent.id && null != widget.reports) {
+      if (0 == widget.continent.total) {
+        _pointer = 0;
+      }
+      for (int i = _pointer; i < widget.reports.length; i++) {
+        widget.continent.confirmed += widget.reports[i].confirmed;
+        widget.continent.recovered += widget.reports[i].recovered;
+        widget.continent.deaths    += widget.reports[i].deaths;
+        _pointer ++;
+      }
+    }
     return _buildBody();
   }
 

@@ -17,11 +17,11 @@ class Constants{
   // Colors for theme
   static Color lightPrimary = Color(0xffd34d0e);
   static Color lightAccent = Colors.orangeAccent;
-  static Color lightBG = Colors.white;
+  static Color lightBG = Colors.white10;
 
   static Color darkPrimary = Color(0xffde670d);
   static Color darkAccent = Colors.redAccent;
-  static Color darkBG = Colors.black;
+  static Color darkBG = Colors.black12;
 
   static ThemeData lightTheme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,

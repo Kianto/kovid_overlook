@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kovidoverlook/collectors/continent_col.dart';
+import 'package:kovidoverlook/collectors/country_col.dart';
 import 'package:kovidoverlook/models/continent.dart';
+import 'package:kovidoverlook/models/country.dart';
+import 'package:kovidoverlook/models/report.dart';
 import 'package:kovidoverlook/screens/parts/home_body.dart';
 import 'package:kovidoverlook/utils/constant.dart';
 import 'package:kovidoverlook/widgets/animation_notifier.dart';
@@ -17,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  Continent _selectingContinent;
+
   AnimationController _animationCtrler;
 
   @override
@@ -30,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     _animationCtrler.forward();
 
+    ContinentCollection.getContinentReport('*').then(
+            (value) => setState(() => _selectingContinent = value)
+    );
     ContinentCollection.initCountryListIntoContinents(context);
   }
 
@@ -52,24 +60,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildBody() {
     return SafeArea(
-      child: FutureBuilder<Continent>(
-        future: ContinentCollection.getContinentReport(selectingContinent?.code),
+      child: StreamBuilder<List<Country>>(
+        stream: CountryCollection.getCountriesByContinentStream(_selectingContinent?.id),
+        initialData: [],
         builder: (context, snapshot) {
-          selectingContinent = snapshot.data;
-
+          List<Country> countries = snapshot.data;
           return CustomScrollView(
             slivers: <Widget>[
-              _buildAppbar(selectingContinent),
-              _buildList(selectingContinent),
+              _buildAppbar(_selectingContinent, countries),
+              _buildList(countries),
             ],
           );
-        }
-      )
+        },
+      ),
     );
 
   }
 
-  Widget _buildAppbar(Continent continent) {
+  Widget _buildAppbar(Continent continent, List<Report> reports) {
     return SliverAppBar(
       backgroundColor: Colors.grey[200],
       title: Text(Constants.appName),
@@ -79,23 +87,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         background: HomeAppBar(
           continent: ContinentCollection.getContinentByCode(continent?.id),
           onContinentSelected: _onContinentSelected,
+          reports: reports,
         ),
       ),
     );
   }
 
-  Widget _buildList(Continent continent) {
+  Widget _buildList(List<Country> countries) {
     return SliverList(
       delegate: SliverChildListDelegate([
-        HomeBody(continentId: continent?.id),
+        HomeBody(countries: countries),
       ]),
     );
   }
 
-  Continent selectingContinent;
-
-  void _onContinentSelected(continent) => setState(() {
-    selectingContinent = continent;
+  void _onContinentSelected(Continent continent) => setState(() {
+    if (_selectingContinent == continent) return;
+    // else
     if (_animationCtrler.status == AnimationStatus.completed) {
       _animationCtrler.reverse();
       Future.delayed(Duration(milliseconds: 500)).then((value) {
@@ -103,6 +111,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _animationCtrler.forward();
       });
     }
+
+    _selectingContinent = continent;
   });
 
 

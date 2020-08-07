@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kovidoverlook/collectors/country_col.dart';
 import 'package:kovidoverlook/models/country.dart';
 import 'package:kovidoverlook/widgets/country_card.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeBody extends StatelessWidget {
-  HomeBody({Key key, @required this.continentId})
+  HomeBody({Key key, @required this.countries})
       : super(key: key);
 
-  final String continentId;
+  final List<Country> countries;
 
   @override
   Widget build(BuildContext context) {
@@ -17,49 +16,40 @@ class HomeBody extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    if (null == continentId) return SizedBox();
+    if (null == countries || countries.isEmpty) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        child: Container(
+          padding: const EdgeInsets.only(top: 36),
+          child: _buildShimmerList(),
 
-    return StreamBuilder<List<Country>>(
-      stream: CountryCollection.getCountriesByContinentStream(continentId),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
-            child: Container(
-              padding: const EdgeInsets.only(top: 36),
-              child: _buildShimmerList(),
+        ),
+        enabled: true,
+        direction: ShimmerDirection.rtl,
+      );
+    }
 
-            ),
-            enabled: true,
-            direction: ShimmerDirection.rtl,
-          );
-        }
-
-        var countries = snapshot.data;
-        return Container(
-          padding: const EdgeInsets.only(top: 36, bottom: 8.0,),
-          child: ListView.separated(
-            separatorBuilder: (context, _) => Divider(color: Colors.white,),
-            itemCount: countries.length,
-            itemBuilder: (context, index) => CountryCard(
-              country: countries[index],
-              onTap: (country) {},
-            ),
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-          ),
-          decoration: BoxDecoration(
-//            borderRadius: BorderRadius.only(
-//              topLeft: Radius.circular(30),
-//              topRight: Radius.circular(30),
-//            ),
-            color: Colors.orangeAccent,
-          ),
-        );
-      },
+    return Container(
+      padding: const EdgeInsets.only(top: 36, bottom: 12.0,),
+      child: ListView.separated(
+        separatorBuilder: (context, _) => Divider(color: Colors.white,),
+        itemCount: countries.length,
+        itemBuilder: (context, index) => CountryCard(
+          country: countries[index],
+          onTap: (country) {},
+        ),
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+        color: Colors.orangeAccent,
+      ),
     );
-
 
   }
 
