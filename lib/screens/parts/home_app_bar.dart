@@ -108,13 +108,16 @@ class _HomeAppBarState extends State<HomeAppBar> {
               Align(
                 alignment: Alignment.center,
                 child: Container(
-                  margin: EdgeInsets.all(72.0),
+                  height: 114.0,
+                  width: 114.0,
+                  padding: const EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
                     shape: BoxShape.circle,
                   ),
                   child: Container(
-                    margin: EdgeInsets.all(8.0),
+                    height: 80.0,
+                    width: 80.0,
                     decoration: BoxDecoration(
                       color: Colors.amber,
                       shape: BoxShape.circle,

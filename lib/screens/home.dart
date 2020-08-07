@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // else
     if (_animationCtrler.status == AnimationStatus.completed) {
       _animationCtrler.reverse();
-      Future.delayed(Duration(milliseconds: 500)).then((value) {
+      Future.delayed(Duration(milliseconds: 600)).then((value) {
         _animationCtrler.stop();
         _animationCtrler.forward();
       });
