@@ -12,7 +12,7 @@ abstract class ContinentCollection {
     if (null == _continents) {
       _continents = [
         Continent(
-          name: 'ALL',
+          name: 'WORLD',
           image: 'assets/images/world.jpg',
           id: '*',
           deaths: 0,

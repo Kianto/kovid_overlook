@@ -74,7 +74,7 @@ class SummaryChartState extends State<SummaryChart> {
     return mapList.map((e) => PieChartSectionData(
       color: e['color'],
       value: (e['percent'] as num) * notifier.value,
-      title: widget.showPercent
+      title: widget.showPercent || e['id'] == touchedIndex
           ? (
                 (e['percent'] as num) * notifier.value * 100
             ).toStringAsFixed(1) + '%'
@@ -83,7 +83,7 @@ class SummaryChartState extends State<SummaryChart> {
           ? widget.size + 10
           : widget.size,
       titleStyle: TextStyle(
-        fontSize: e['id'] == touchedIndex ? 20 : 12,
+        fontSize: e['id'] == touchedIndex ? (widget.showPercent ? 20 : 12) : 12,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),

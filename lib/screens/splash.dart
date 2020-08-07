@@ -37,33 +37,31 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Image.asset(Constants.i_kovid_overlook_banner),
-
-              SizedBox(width: 40.0),
-
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(
-                  top: 15.0,
-                ),
-                child: Text(
-                  "${Constants.appName}",
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).accentColor,
-                  ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Image.asset(Constants.i_kovid_overlook_banner),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                top: 15.0,
+              ),
+              child: Text(
+                "${Constants.appName} by Kianto",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
-
-            ],
-          ),
-
+            ),
+            SizedBox(height: 16.0),
+          ],
         ),
       ),
     );

@@ -51,6 +51,7 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
             opacity: notifier.value,
             child: InkWell(
               child: Card(
+                color: Colors.white70,
                 child: _buildBody(notifier),
               ),
               onTap: () => widget.onTap(widget.country),
