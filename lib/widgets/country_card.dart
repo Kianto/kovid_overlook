@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kovidoverlook/models/country.dart';
 import 'package:kovidoverlook/widgets/animation_notifier.dart';
@@ -8,17 +7,18 @@ import 'package:kovidoverlook/widgets/summary_chart.dart';
 import 'package:provider/provider.dart';
 
 class CountryCard extends StatefulWidget {
-  CountryCard({Key key, @required this.country, this.onTap}) : super(key: key);
+  const CountryCard({super.key, required this.country, this.onTap});
 
   final Country country;
-  final Function(Country country) onTap;
+  final Function(Country country)? onTap;
 
   @override
   _CountryCardState createState() => _CountryCardState();
 }
 
-class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin {
-  AnimationController _animationCtrler;
+class _CountryCardState extends State<CountryCard>
+    with TickerProviderStateMixin {
+  late AnimationController _animationCtrler;
 
   @override
   void initState() {
@@ -37,13 +37,15 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AnimationNotifier>(
       builder: (context, notifier, child) {
-        if (1 == notifier.value) _animationCtrler.forward();
-        else if (_animationCtrler.isCompleted) _animationCtrler.reverse();
+        if (1 == notifier.value) {
+          _animationCtrler.forward();
+        } else if (_animationCtrler.isCompleted) {
+          _animationCtrler.reverse();
+        }
 
         return Transform.translate(
           offset: Offset(64 * (1 - notifier.value), 0),
@@ -54,7 +56,7 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
                 color: Colors.white70,
                 child: _buildBody(notifier),
               ),
-              onTap: () => widget.onTap(widget.country),
+              onTap: () => widget.onTap?.call(widget.country),
             ),
           ),
         );
@@ -105,7 +107,13 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildBoard(int number, double width, Color color, AnimationNotifier notifier, {double delay = 0}) {
+  Widget _buildBoard(
+    int number,
+    double width,
+    Color color,
+    AnimationNotifier notifier, {
+    double delay = 0,
+  }) {
     Animation animation = CurvedAnimation(
       parent: _animationCtrler,
       curve: Interval(
@@ -135,7 +143,7 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
         ),
         child: Text(
           ' $number',
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -143,5 +151,4 @@ class _CountryCardState extends State<CountryCard> with TickerProviderStateMixin
       ),
     );
   }
-
 }

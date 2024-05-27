@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kovidoverlook/models/country.dart';
 import 'package:kovidoverlook/widgets/country_card.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeBody extends StatelessWidget {
-  HomeBody({Key key, @required this.countries})
-      : super(key: key);
+  const HomeBody({super.key, required this.countries});
 
   final List<Country> countries;
 
@@ -16,14 +14,13 @@ class HomeBody extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    if (null == countries || countries.isEmpty) {
+    if (countries.isEmpty) {
       return Shimmer.fromColors(
-        baseColor: Colors.grey[300],
-        highlightColor: Colors.grey[100],
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
         child: Container(
           padding: const EdgeInsets.only(top: 36),
           child: _buildShimmerList(),
-
         ),
         enabled: true,
         direction: ShimmerDirection.rtl,
@@ -31,18 +28,23 @@ class HomeBody extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(top: 36, bottom: 12.0,),
+      padding: const EdgeInsets.only(
+        top: 36,
+        bottom: 12.0,
+      ),
       child: ListView.separated(
-        separatorBuilder: (context, _) => Divider(color: Colors.white,),
+        separatorBuilder: (context, _) => const Divider(
+          color: Colors.white,
+        ),
         itemCount: countries.length,
         itemBuilder: (context, index) => CountryCard(
           country: countries[index],
           onTap: (country) {},
         ),
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
           topRight: Radius.circular(12),
@@ -50,7 +52,6 @@ class HomeBody extends StatelessWidget {
         color: Colors.orangeAccent,
       ),
     );
-
   }
 
   Widget _buildShimmerList() {
@@ -79,8 +80,7 @@ class HomeBody extends StatelessWidget {
       ),
       itemCount: 6,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
     );
   }
-
 }

@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kovidoverlook/collectors/continent_col.dart';
 import 'package:kovidoverlook/models/continent.dart';
@@ -9,12 +8,15 @@ import 'package:kovidoverlook/widgets/summary_card.dart';
 import 'package:kovidoverlook/widgets/summary_chart.dart';
 
 class HomeAppBar extends StatefulWidget {
-  HomeAppBar({Key key, @required this.continent, this.onContinentSelected, this.reports})
-      : continents = ContinentCollection.getContinents(),
-        super(key: key);
+  HomeAppBar({
+    super.key,
+    required this.continent,
+    this.onContinentSelected,
+    this.reports = const [],
+  }) : continents = ContinentCollection.getContinents();
 
   final Continent continent;
-  final Function(Continent) onContinentSelected;
+  final Function(Continent)? onContinentSelected;
   final List<Continent> continents;
   final List<Report> reports;
 
@@ -28,15 +30,15 @@ class _HomeAppBarState extends State<HomeAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    if ('*' != widget.continent.id && null != widget.reports) {
+    if ('*' != widget.continent.id) {
       if (0 == widget.continent.total) {
         _pointer = 0;
       }
       for (int i = _pointer; i < widget.reports.length; i++) {
         widget.continent.confirmed += widget.reports[i].confirmed;
         widget.continent.recovered += widget.reports[i].recovered;
-        widget.continent.deaths    += widget.reports[i].deaths;
-        _pointer ++;
+        widget.continent.deaths += widget.reports[i].deaths;
+        _pointer++;
       }
     }
     return _buildBody();
@@ -49,10 +51,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
         itemBuilder: (context, index) => ContinentCard(
           continent: widget.continents[index],
           onTap: (continent) {
-            widget.onContinentSelected(continent);
+            widget.onContinentSelected?.call(continent);
             _carouselController.animateToPage(
               index,
-              duration: Duration(milliseconds: 500), curve: Curves.linear,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear,
             );
           },
           selected: widget.continent == widget.continents[index],
@@ -63,9 +66,9 @@ class _HomeAppBarState extends State<HomeAppBar> {
     );
 
     var summaryList = GridView(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 2/1,
+        childAspectRatio: 2 / 1,
       ),
       children: [
         SummaryCard(
@@ -73,7 +76,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
           title: 'Total',
           number: widget.continent.total.toInt(),
         ),
-
         SummaryCard(
           color: Colors.blue,
           title: 'Confirmed',
@@ -89,15 +91,14 @@ class _HomeAppBarState extends State<HomeAppBar> {
           title: 'Deaths',
           number: widget.continent.deaths,
         ),
-
       ],
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
     );
 
     var appContent = Column(
       children: [
-        SizedBox(height: 56.0),
+        const SizedBox(height: 56.0),
         continentList,
         Expanded(
           child: Stack(
@@ -118,7 +119,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                   child: Container(
                     height: 80.0,
                     width: 80.0,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.amber,
                       shape: BoxShape.circle,
                     ),
@@ -131,7 +132,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 ),
               ),
             ],
-
           ),
         ),
       ],
@@ -142,17 +142,27 @@ class _HomeAppBarState extends State<HomeAppBar> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 56.0,),
+            const SizedBox(
+              height: 56.0,
+            ),
             Expanded(
               child: CarouselSlider(
                 options: CarouselOptions(height: double.infinity),
-                items: widget.continents.map((i) => Builder(
-                  builder: (context) => Image.asset(i.image, fit: BoxFit.fitWidth,),
-                )).toList(),
+                items: widget.continents
+                    .map(
+                      (i) => Builder(
+                        builder: (context) => i.image == null
+                            ? const SizedBox()
+                            : Image.asset(
+                                i.image!,
+                                fit: BoxFit.fitWidth,
+                              ),
+                      ),
+                    )
+                    .toList(),
                 carouselController: _carouselController,
               ),
-            )
-
+            ),
           ],
         ),
         Container(
@@ -162,5 +172,4 @@ class _HomeAppBarState extends State<HomeAppBar> {
       ],
     );
   }
-
 }

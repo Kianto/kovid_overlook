@@ -9,12 +9,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
-
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       title: Constants.appName,
       theme: Constants.lightTheme,
       routes: {
-        '/': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(),
+        '/': (context) => const SplashScreen(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }

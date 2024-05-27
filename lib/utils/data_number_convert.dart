@@ -1,5 +1,4 @@
 abstract class DataNumberConverter {
-
   static String convert(num number) {
     String res = number.toStringAsFixed(0);
 
@@ -11,5 +10,4 @@ abstract class DataNumberConverter {
 
     return res;
   }
-
 }

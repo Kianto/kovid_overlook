@@ -2,32 +2,29 @@ import 'report.dart';
 
 class Country extends Report {
   Country({
-    String id,
-    this.code,
-    this.name,
-    this.latitude,
-    this.longitude,
-
-    int confirmed,
-    int recovered,
-    int deaths,
-    DateTime updateTime,
-
+    String id = '',
+    this.code = '',
+    this.name = '',
+    this.latitude = 0,
+    this.longitude = 0,
+    int confirmed = 0,
+    int recovered = 0,
+    int deaths = 0,
+    DateTime? updateTime,
   }) : super(
-    id: id,
-    confirmed: confirmed,
-    recovered: recovered,
-    deaths: deaths,
-    updateTime: updateTime,
-  );
+          id: id,
+          confirmed: confirmed,
+          recovered: recovered,
+          deaths: deaths,
+          updateTime: updateTime,
+        );
 
-  Country.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    this.code = json['code'];
-    this.name = json['country'];
-
-    this.latitude = (json['latitude'] as num).toDouble();
-    this.longitude = (json['longitude'] as num).toDouble();
-  }
+  Country.fromJson(Map<String, dynamic> json)
+      : code = json['code'],
+        name = json['country'],
+        latitude = (json['latitude'] as num).toDouble(),
+        longitude = (json['longitude'] as num).toDouble(),
+        super.fromJson(json);
 
   String code;
   String name;
@@ -35,5 +32,4 @@ class Country extends Report {
 
   double latitude;
   double longitude;
-
 }

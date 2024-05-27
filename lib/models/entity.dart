@@ -3,13 +3,9 @@
 ///
 
 abstract class Entity {
-
   Entity(this.id);
 
-  Entity.fromJson(Map<String, dynamic> json) {
-    this.id = json['id'];
-  }
+  Entity.fromJson(Map<String, dynamic> json) : id = json['id'];
 
-  String id;
-
+  final String id;
 }

@@ -2,26 +2,25 @@ import 'entity.dart';
 
 class Report extends Entity {
   Report({
-    String id,
-    this.confirmed,
-    this.recovered,
-    this.deaths,
+    String id = '',
+    this.confirmed = 0,
+    this.recovered = 0,
+    this.deaths = 0,
     this.updateTime,
   }) : super(id);
 
-  Report.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    this.confirmed = (json['confirmed'] as num).toInt();
-    this.recovered = (json['recovered'] as num).toInt();
-    this.deaths = (json['deaths'] as num).toInt();
-
-//    this.updateTime = json['updateTime'];
-  }
+  Report.fromJson(Map<String, dynamic> json)
+      : confirmed = (json['confirmed'] as num).toInt(),
+        recovered = (json['recovered'] as num).toInt(),
+        deaths = (json['deaths'] as num).toInt(),
+        updateTime = json['updateTime'],
+        super.fromJson(json);
 
   int confirmed;
   int recovered;
   int deaths;
 
-  DateTime updateTime;
+  DateTime? updateTime;
 
   double get total => 1.0 * (confirmed + recovered + deaths);
 
@@ -32,5 +31,4 @@ class Report extends Entity {
       'deaths': deaths,
     };
   }
-
 }

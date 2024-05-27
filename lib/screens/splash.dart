@@ -1,21 +1,20 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kovidoverlook/utils/constant.dart';
 
-
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   startTimeout() {
-    return Timer(Duration(seconds: 2), changeScreen);
+    return Timer(const Duration(seconds: 2), changeScreen);
   }
 
-  changeScreen() async{
+  changeScreen() async {
     Navigator.pushReplacementNamed(context, '/home');
 //    Navigator.of(context).push(
 //      MaterialPageRoute(
@@ -32,39 +31,35 @@ class _SplashScreenState extends State<SplashScreen> {
     startTimeout();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: Image.asset(Constants.i_kovid_overlook_banner),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: Image.asset(Constants.iKovidOverlookBanner),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(
+              top: 15.0,
+            ),
+            child: Text(
+              "${Constants.appName} by Kianto",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                top: 15.0,
-              ),
-              child: Text(
-                "${Constants.appName} by Kianto",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).accentColor,
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16.0),
+        ],
       ),
     );
   }
-
 }

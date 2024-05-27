@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:kovidoverlook/collectors/continent_col.dart';
 import 'package:kovidoverlook/collectors/country_col.dart';
 import 'package:kovidoverlook/models/continent.dart';
@@ -13,16 +11,17 @@ import 'package:provider/provider.dart';
 
 import 'parts/home_app_bar.dart';
 
-
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  Continent _selectingContinent;
+  Continent? _selectingContinent;
 
-  AnimationController _animationCtrler;
+  late AnimationController _animationCtrler;
 
   @override
   void initState() {
@@ -30,13 +29,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _animationCtrler = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
-      reverseDuration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
+      reverseDuration: const Duration(milliseconds: 500),
     );
     _animationCtrler.forward();
 
     ContinentCollection.getContinentReport('*').then(
-            (value) => setState(() => _selectingContinent = value)
+      (value) => setState(() => _selectingContinent = value),
     );
     ContinentCollection.initCountryListIntoContinents(context);
   }
@@ -46,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _animationCtrler.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +59,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildBody() {
     return SafeArea(
       child: StreamBuilder<List<Country>>(
-        stream: CountryCollection.getCountriesByContinentStream(_selectingContinent?.id),
-        initialData: [],
+        stream: CountryCollection.getCountriesByContinentStream(
+          _selectingContinent?.id ?? '',
+        ),
+        initialData: const [],
         builder: (context, snapshot) {
-          List<Country> countries = snapshot.data;
+          List<Country> countries = snapshot.data ?? [];
           return CustomScrollView(
             slivers: <Widget>[
               _buildAppbar(_selectingContinent, countries),
@@ -74,18 +74,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         },
       ),
     );
-
   }
 
-  Widget _buildAppbar(Continent continent, List<Report> reports) {
+  Widget _buildAppbar(Continent? continent, List<Report> reports) {
     return SliverAppBar(
       backgroundColor: Colors.grey[200],
-      title: Text(Constants.appName),
+      title: const Text(Constants.appName),
       floating: true,
       expandedHeight: MediaQuery.of(context).size.height * 2 / 3,
       flexibleSpace: FlexibleSpaceBar(
         background: HomeAppBar(
-          continent: ContinentCollection.getContinentByCode(continent?.id),
+          continent: ContinentCollection.getContinentByCode(continent?.id) ??
+              Continent(name: 'None'),
           onContinentSelected: _onContinentSelected,
           reports: reports,
         ),
@@ -102,18 +102,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _onContinentSelected(Continent continent) => setState(() {
-    if (_selectingContinent == continent) return;
-    // else
-    if (_animationCtrler.status == AnimationStatus.completed) {
-      _animationCtrler.reverse();
-      Future.delayed(Duration(milliseconds: 600)).then((value) {
-        _animationCtrler.stop();
-        _animationCtrler.forward();
+        if (_selectingContinent == continent) return;
+        // else
+        if (_animationCtrler.status == AnimationStatus.completed) {
+          _animationCtrler.reverse();
+          Future.delayed(const Duration(milliseconds: 600)).then((value) {
+            _animationCtrler.stop();
+            _animationCtrler.forward();
+          });
+        }
+
+        _selectingContinent = continent;
       });
-    }
-
-    _selectingContinent = continent;
-  });
-
-
 }
