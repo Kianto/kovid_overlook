@@ -5,7 +5,7 @@ class Continent extends Report {
     String id = '',
     this.name,
     this.image,
-    this.countries = const [],
+    this.countries,
     int confirmed = 0,
     int recovered = 0,
     int deaths = 0,
@@ -33,12 +33,13 @@ class Continent extends Report {
   }
 
   void addCountryCode(String countryCode) {
-    countries.add(countryCode);
+    countries ??= [];
+    countries!.add(countryCode);
   }
 
   String? name;
   String? image;
   String get code => id;
 
-  List<String> countries = [];
+  List<String>? countries;
 }

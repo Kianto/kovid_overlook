@@ -38,7 +38,7 @@ class SummaryChartState extends State<SummaryChart> {
           pieTouchData: PieTouchData(
             touchCallback: (event, pieTouchResponse) {
               setState(() {
-                if (event is FlLongPressEnd || event is FlPanEndEvent) {
+                if (event is FlLongPressEnd || event is FlTapUpEvent) {
                   touchedIndex = -1;
                 } else {
                   touchedIndex =
@@ -65,17 +65,17 @@ class SummaryChartState extends State<SummaryChart> {
       {
         "id": 0,
         "percent": widget.report!.deaths / total,
-        "color": Colors.red,
+        "color": Colors.redAccent,
       },
       {
         "id": 1,
         "percent": widget.report!.recovered / total,
-        "color": Colors.green,
+        "color": Colors.green[600],
       },
       {
         "id": 2,
         "percent": widget.report!.confirmed / total,
-        "color": Colors.blue,
+        "color": Colors.blueAccent,
       },
     ];
 

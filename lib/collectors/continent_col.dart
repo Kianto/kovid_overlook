@@ -44,7 +44,7 @@ abstract class ContinentCollection {
         recovered: 0,
       ),
       Continent(
-        name: 'North america',
+        name: 'N.America',
         image: 'assets/images/c_na.png',
         id: 'NA',
         deaths: 0,
@@ -52,7 +52,7 @@ abstract class ContinentCollection {
         recovered: 0,
       ),
       Continent(
-        name: 'South america',
+        name: 'S.America',
         image: 'assets/images/c_sa.png',
         id: 'SA',
         deaths: 0,

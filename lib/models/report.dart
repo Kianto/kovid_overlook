@@ -13,7 +13,9 @@ class Report extends Entity {
       : confirmed = (json['confirmed'] as num).toInt(),
         recovered = (json['recovered'] as num).toInt(),
         deaths = (json['deaths'] as num).toInt(),
-        updateTime = json['updateTime'],
+        updateTime = json['lastUpdate'] != null
+            ? DateTime.parse(json['lastUpdate'])
+            : null,
         super.fromJson(json);
 
   int confirmed;

@@ -103,6 +103,9 @@ class _CountryCardState extends State<CountryCard>
       leading: FadeInImage.assetNetwork(
         image: widget.country.flag,
         placeholder: 'assets/images/kovid_overlook.png',
+        imageErrorBuilder: (context, _, __) => Image.asset(
+          'assets/images/kovid_overlook.png',
+        ),
       ),
     );
   }

@@ -28,10 +28,11 @@ abstract class CountryCollection {
   ) async* {
     List<Country> res = [];
 
-    var continent = ContinentCollection.getContinentByCode(code);
-    var list = continent?.countries;
-    for (var countryCode in list ?? []) {
-      var country = await getCountryByCode(countryCode);
+    final continent = ContinentCollection.getContinentByCode(code);
+    final list = continent?.countries;
+
+    for (final countryCode in list ?? []) {
+      final country = await getCountryByCode(countryCode);
 
       if (null != country) yield res..add(country);
     }
@@ -54,7 +55,7 @@ abstract class CountryCollection {
       try {
         return Country.fromJson(json.decode(response.body)[0]);
       } catch (e) {
-        Logger().e(e);
+        // Logger().e(e);
         return null;
       }
     } else {

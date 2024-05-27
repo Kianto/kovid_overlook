@@ -22,8 +22,8 @@ class Country extends Report {
   Country.fromJson(Map<String, dynamic> json)
       : code = json['code'],
         name = json['country'],
-        latitude = (json['latitude'] as num).toDouble(),
-        longitude = (json['longitude'] as num).toDouble(),
+        latitude = (json['latitude'] as double?) ?? 0,
+        longitude = (json['longitude'] as double?) ?? 0,
         super.fromJson(json);
 
   String code;
